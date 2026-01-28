@@ -1,1022 +1,229 @@
 {
+  "log": {
+    "loglevel": "warning"
+  },
+  "dns": {
+    "hosts": {
+      "dns.google": [
+        "8.8.8.8",
+        "8.8.4.4",
+        "2001:4860:4860::8888",
+        "2001:4860:4860::8844"
+      ],
+      "dns.alidns.com": [
+        "223.5.5.5",
+        "223.6.6.6",
+        "2400:3200::1",
+        "2400:3200:baba::1"
+      ],
+      "one.one.one.one": [
+        "1.1.1.1",
+        "1.0.0.1",
+        "2606:4700:4700::1111",
+        "2606:4700:4700::1001"
+      ],
+      "1dot1dot1dot1.cloudflare-dns.com": [
+        "1.1.1.1",
+        "1.0.0.1",
+        "2606:4700:4700::1111",
+        "2606:4700:4700::1001"
+      ],
+      "cloudflare-dns.com": [
+        "104.16.249.249",
+        "104.16.248.249",
+        "2606:4700::6810:f8f9",
+        "2606:4700::6810:f9f9"
+      ],
+      "dns.cloudflare.com": [
+        "104.16.132.229",
+        "104.16.133.229",
+        "2606:4700::6810:84e5",
+        "2606:4700::6810:85e5"
+      ],
+      "dot.pub": [
+        "1.12.12.12",
+        "120.53.53.53"
+      ],
+      "doh.pub": [
+        "1.12.12.12",
+        "120.53.53.53"
+      ],
+      "dns.quad9.net": [
+        "9.9.9.9",
+        "149.112.112.112",
+        "2620:fe::fe",
+        "2620:fe::9"
+      ],
+      "dns.yandex.net": [
+        "77.88.8.8",
+        "77.88.8.1",
+        "2a02:6b8::feed:0ff",
+        "2a02:6b8:0:1::feed:0ff"
+      ],
+      "dns.sb": [
+        "185.222.222.222",
+        "2a09::"
+      ],
+      "dns.umbrella.com": [
+        "208.67.220.220",
+        "208.67.222.222",
+        "2620:119:35::35",
+        "2620:119:53::53"
+      ],
+      "dns.sse.cisco.com": [
+        "208.67.220.220",
+        "208.67.222.222",
+        "2620:119:35::35",
+        "2620:119:53::53"
+      ],
+      "engage.cloudflareclient.com": [
+        "162.159.192.1",
+        "2606:4700:d0::a29f:c001"
+      ]
+    },
+    "servers": [
+      {
+        "address": "https://dns.alidns.com/dns-query",
+        "domains": [
+          "fi.ftp.arvan.digikalamag.top"
+        ],
+        "skipFallback": true
+      },
+      {
+        "address": "https://dns.alidns.com/dns-query",
+        "domains": [
+          "geosite:private"
+        ],
+        "skipFallback": true
+      },
+      {
+        "address": "223.5.5.5",
+        "domains": [
+          "full:dns.alidns.com",
+          "full:cloudflare-dns.com"
+        ],
+        "skipFallback": true
+      },
+      "https://cloudflare-dns.com/dns-query"
+    ]
+  },
   "inbounds": [
     {
-      "port": 1080,
+      "tag": "socks",
+      "port": 10808,
       "listen": "127.0.0.1",
-      "protocol": "socks",
-      "settings": {
-        "udp": true,
-        "auth": "noauth"
+      "protocol": "mixed",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ],
+        "routeOnly": false
       },
-      "tag": "socks-in"
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "allowTransparent": false
+      }
     }
   ],
   "outbounds": [
     {
+      "tag": "proxy",
       "protocol": "vless",
       "settings": {
         "vnext": [
           {
-            "address": "ip.ali.lat",
-            "port": 2083,
+            "address": "fi.ftp.arvan.digikalamag.top",
+            "port": 2020,
             "users": [
               {
-                "id": "0f4dacd7-8f8f-4326-a849-1b1593e8e711",
+                "id": "6114c870-0bca-48fc-b002-a3f0357c7e8b",
+                "email": "t@t.tt",
+                "security": "auto",
                 "encryption": "none"
               }
             ]
           }
         ]
       },
-      "tag": "@@V2rayng_Fast",
       "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "temp3.ali.lat"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "temp3.ali.lat",
-          "allowInsecure": false,
-          "alpn": [
-            "h2",
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "104.17.162.123",
-            "port": 8443,
-            "users": [
-              {
-                "id": "83f03646-fb28-44cc-9d2c-8853f6c09285",
-                "encryption": "none"
+        "network": "tcp",
+        "tcpSettings": {
+          "header": {
+            "type": "http",
+            "request": {
+              "version": "1.1",
+              "method": "GET",
+              "path": [
+                "/"
+              ],
+              "headers": {
+                "Host": [
+                  "goftino.com"
+                ],
+                "User-Agent": [],
+                "Accept-Encoding": [
+                  "gzip, deflate"
+                ],
+                "Connection": [
+                  "keep-alive"
+                ],
+                "Pragma": "no-cache"
               }
-            ]
+            }
           }
-        ]
-      },
-      "tag": "⚡Telegram = @prrofile_purple",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "r4fnviw9jl4i4rx.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "r4fnviw9jl4i4rx.zjde5.de5.net",
-          "allowInsecure": false
         }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "66.81.247.155",
-            "port": 443,
-            "users": [
-              {
-                "id": "4525c260-df3c-4f62-b8f1-f4f5f305694b",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
       },
-      "tag": "⚡Telegram = @prrofile_purple",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net",
-          "allowInsecure": false
-        }
+      "mux": {
+        "enabled": false,
+        "concurrency": -1
       }
     },
     {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "104.17.162.123",
-            "port": 8443,
-            "users": [
-              {
-                "id": "83f03646-fb28-44cc-9d2c-8853f6c09285",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "𝗝𝗼𝗶𝗻 ➠ @vpnplusee_free | کانال ما",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "r4fnviw9jl4i4rx.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "r4fnviw9jl4i4rx.zjde5.de5.net",
-          "allowInsecure": false,
-          "alpn": [
-            "http/1.1"
-          ]
-        }
-      }
+      "tag": "direct",
+      "protocol": "freedom"
     },
     {
-      "protocol": "shadowsocks",
-      "settings": {
-        "servers": [
-          {
-            "address": "78.38.246.150",
-            "port": 8446,
-            "method": "chacha20-poly1305",
-            "password": "6e3e43f4-12b7-42f1-8b93-41a152d5612d"
-          }
-        ]
-      },
-      "tag": "℡▷ @freedomofinfor",
-      "streamSettings": {
-        "network": "tcp"
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "172.64.145.38",
-            "port": 8443,
-            "password": "1egf751v52w6"
-          }
-        ]
-      },
-      "tag": "⚡Telegram = @SOSkeyNET",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "konbu3yh7or1gdj6win7zyxp9e6h3ndhfpr6snxzhh.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "konbu3yh7or1gdj6win7zyxp9e6h3ndhfpr6snxzhh.zjde5.de5.net",
-          "allowInsecure": true
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "104.17.164.123",
-            "port": 8443,
-            "password": "3ljg5jx8ypwc"
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "8ifr3yt3q8f1re.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "8ifr3yt3q8f1re.zjde5.de5.net",
-          "allowInsecure": true
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "104.17.165.123",
-            "port": 8443,
-            "password": "4wsc50fdyqeq"
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "rsosx0ofzeyjahe4gb4sk16zbzqfi4r7z2ubfujth9ebgf5tli7di.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "rsosx0ofzeyjahe4gb4sk16zbzqfi4r7z2ubfujth9ebgf5tli7di.zjde5.de5.net",
-          "allowInsecure": true
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "172.64.145.18",
-            "port": 8443,
-            "password": "7a5fwj8eye7s"
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "wd73uardmf9arlztris4hp6rt06k3166qnnlhah1ii8mvxuw2y6ssnfbrh6o.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "wd73uardmf9arlztris4hp6rt06k3166qnnlhah1ii8mvxuw2y6ssnfbrh6o.zjde5.de5.net",
-          "allowInsecure": true
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "172.64.153.22",
-            "port": 8443,
-            "password": "9iuw92dfpvlm"
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "ob85lxpyonvy4y1crfcx2wrmrr.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "ob85lxpyonvy4y1crfcx2wrmrr.zjde5.de5.net",
-          "allowInsecure": true
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "104.17.163.123",
-            "port": 8443,
-            "users": [
-              {
-                "id": "0e3f2f36-6261-4297-9671-cf5bba38bd8c",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "Config 3 - @lebertad",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "7za2f49hdk2i8ro8f8by53rhwrlx.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "7za2f49hdk2i8ro8f8by53rhwrlx.zjde5.de5.net",
-          "allowInsecure": false,
-          "alpn": [
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "172.64.149.99",
-            "port": 8443,
-            "password": "tw04krrjv1m6"
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "yn3l39ghsfzlhk1xh0pbywn3rtfr2.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "yn3l39ghsfzlhk1xh0pbywn3rtfr2.zjde5.de5.net",
-          "allowInsecure": true
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "104.17.163.123",
-            "port": 8443,
-            "password": "x79svebo1f7b"
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "5m2b654fvfrv.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "5m2b654fvfrv.zjde5.de5.net",
-          "allowInsecure": true
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "172.64.149.99",
-            "port": 8443,
-            "users": [
-              {
-                "id": "22beecc3-88b5-4f73-b479-154a95b0703d",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "Config 1 - @lebertad",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "bfhotndtmfbvom6dt0nal5166fjkd5zxjnw5hfnlr4p0bhn.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "bfhotndtmfbvom6dt0nal5166fjkd5zxjnw5hfnlr4p0bhn.zjde5.de5.net",
-          "allowInsecure": false,
-          "alpn": [
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "104.17.166.123",
-            "port": 8443,
-            "password": "f6apy2t8ze0w"
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "gwb8zasq75zp0vkeyrhtufsppgrbto2udnsxlyanl2e3froihncjjfrb.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "gwb8zasq75zp0vkeyrhtufsppgrbto2udnsxlyanl2e3froihncjjfrb.zjde5.de5.net",
-          "allowInsecure": true
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "104.17.165.123",
-            "port": 8443,
-            "users": [
-              {
-                "id": "1a6a27ba-e087-4a84-a038-aecd8a25a86e",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "x6wg6r95gt8a53cr4yi9duze3wgnajbbjk10tphgfphrxx1kmb1awoz.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "x6wg6r95gt8a53cr4yi9duze3wgnajbbjk10tphgfphrxx1kmb1awoz.zjde5.de5.net",
-          "allowInsecure": true,
-          "alpn": [
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "ipo.mastermarly.ir",
-            "port": 443,
-            "users": [
-              {
-                "id": "0abd54e7-c276-49f5-b9a3-8e5068e371b1",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "⚡Telegram = @SOSkeyNET",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "nur-xn.mastermarly.ir"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "falke-n.mastermarly.ir",
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "104.17.163.123",
-            "port": 8443,
-            "password": "wz2vh0awz8iw"
-          }
-        ]
-      },
-      "tag": "⚡Telegram = @SOSkeyNET",
-      "streamSettings": {
-        "network": "ws",
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "y98fk7q84z0wfcjuirh.zjde5.de5.net",
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "104.17.163.123",
-            "port": 8443,
-            "password": "n875vm39ii96"
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "fflved5b71of0dhntg2ier40sswwuydkqf.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "fflved5b71of0dhntg2ier40sswwuydkqf.zjde5.de5.net",
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "104.17.162.123",
-            "port": 8443,
-            "password": "u2k1jh0og5vn"
-          }
-        ]
-      },
-      "tag": "⚡Telegram = @SOSkeyNET",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "oq788320mz7kfruyec7b0q1l4bojfire1bp9lmu7.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "oq788320mz7kfruyec7b0q1l4bojfire1bp9lmu7.zjde5.de5.net",
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "trojan",
-      "settings": {
-        "servers": [
-          {
-            "address": "172.64.154.125",
-            "port": 8443,
-            "password": "z3rqndeos4nh"
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "566n4gjxgs6erko5jep85cltuyrqdospuafzkxqlrukpwg3ww2.zjde5.de5.net"
-          },
-          "path": "/"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "566n4gjxgs6erko5jep85cltuyrqdospuafzkxqlrukpwg3ww2.zjde5.de5.net",
-          "allowInsecure": true
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "104.18.15.19",
-            "port": 8443,
-            "users": [
-              {
-                "id": "0665cf1e-0df8-4981-a8de-a366e37c0866",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "⚡Telegram = @prrofile_purple",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "xdol7mayq6wu5kil7wjyrni7o8tnydsafcmhfhn7g6rimbw5o2g6mlm.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "xdol7mayq6wu5kil7wjyrni7o8tnydsafcmhfhn7g6rimbw5o2g6mlm.zjde5.de5.net",
-          "allowInsecure": false,
-          "alpn": [
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "104.17.164.123",
-            "port": 8443,
-            "users": [
-              {
-                "id": "16bb01c3-442b-4b09-8935-088bf50283f8",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرا",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "uqe0k8eq1y1werf27q2uz2m3v6rm1maloour.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "uqe0k8eq1y1werf27q2uz2m3v6rm1maloour.zjde5.de5.net",
-          "allowInsecure": true,
-          "alpn": [
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "172.64.149.99",
-            "port": 8443,
-            "users": [
-              {
-                "id": "2ddeb056-17d4-421e-a318-39428733d4a2",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "8p3cfl0ripm.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "8p3cfl0ripm.zjde5.de5.net",
-          "allowInsecure": true,
-          "alpn": [
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "cdn.bio4cdn.com",
-            "port": 2053,
-            "users": [
-              {
-                "id": "2e46ba5a-db56-4940-9500-a61c7b0bcc0c",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "💫 @ConfigV2RayNG (تلگرام)",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "bio.bio4cdn.com"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "bio.bio4cdn.com",
-          "allowInsecure": false,
-          "alpn": [
-            "h2",
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "104.21.11.91",
-            "port": 443,
-            "users": [
-              {
-                "id": "48522259-e5cb-4c3d-8ec2-9e188d50703e",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "r♡ya@V2rayBaaz◇⃟💜",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "r4fnviw9jl4i4rx.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "r4fnviw9jl4i4rx.zjde5.de5.net",
-          "allowInsecure": false,
-          "alpn": [
-            "h3",
-            "h2",
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "172.64.145.38",
-            "port": 8443,
-            "users": [
-              {
-                "id": "35011ab1-abb4-482c-b6f7-69d205733e88",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "Config 2 - @lebertad",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "hwscwhnx1vif2e4w2llmoakhiqrh1erpu67.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "hwscwhnx1vif2e4w2llmoakhiqrh1erpu67.zjde5.de5.net",
-          "allowInsecure": false,
-          "alpn": [
-            "http/1.1"
-          ]
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "172.64.154.125",
-            "port": 8443,
-            "users": [
-              {
-                "id": "3e04d9dd-c0bf-43db-a12e-f9f53e83f726",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "Config 4 - @lebertad",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "m4nf6qw19e98xglfbjgpsrk2e63lsefr2hdik41nnlocrqs4hqf515.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "m4nf6qw19e98xglfbjgpsrk2e63lsefr2hdik41nnlocrqs4hqf515.zjde5.de5.net",
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "104.17.164.123",
-            "port": 8443,
-            "users": [
-              {
-                "id": "4525c260-df3c-4f62-b8f1-f4f5f305694b",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "@icv2ray",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net",
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "66.81.247.155",
-            "port": 443,
-            "users": [
-              {
-                "id": "4525c260-df3c-4f62-b8f1-f4f5f305694b",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "Config 1 - @lebertad",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net",
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "66.81.247.155",
-            "port": 443,
-            "users": [
-              {
-                "id": "4525c260-df3c-4f62-b8f1-f4f5f305694b",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "@icv2ray",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net",
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "66.81.247.155",
-            "port": 443,
-            "users": [
-              {
-                "id": "4525c260-df3c-4f62-b8f1-f4f5f305694b",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "TELEGRAM-MARAMBASHI_MARAMBASHI_MARAMBASHI_MARAMBASHI_MARAMBASHI?ed=512&sni=yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net&fp=chrome#🤍سرورها بیشتردردرکانالsirarm1n@🤍",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "66.81.247.155",
-            "port": 443,
-            "users": [
-              {
-                "id": "4525c260-df3c-4f62-b8f1-f4f5f305694b",
-                "encryption": "none"
-              }
-            ]
-          }
-        ]
-      },
-      "tag": "ConfigV2RayNG",
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "headers": {
-            "Host": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net"
-          }
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net",
-          "allowInsecure": false
-        }
-      }
-    },
-    {
-      "protocol": "freedom",
-      "settings": {},
-      "tag": "direct"
+      "tag": "block",
+      "protocol": "blackhole"
     }
   ],
   "routing": {
+    "domainStrategy": "AsIs",
     "rules": [
+      {
+        "type": "field",
+        "inboundTag": [
+          "api"
+        ],
+        "outboundTag": "api"
+      },
+      {
+        "type": "field",
+        "port": "443",
+        "network": "udp",
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "outboundTag": "direct",
+        "ip": [
+          "geoip:private"
+        ]
+      },
       {
         "type": "field",
         "outboundTag": "direct",
         "domain": [
-          "geosite:cn"
+          "geosite:private"
         ]
+      },
+      {
+        "type": "field",
+        "port": "0-65535",
+        "outboundTag": "proxy"
       }
     ]
   }
